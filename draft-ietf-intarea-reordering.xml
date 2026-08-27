@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     draft-white-intarea-reordering-latest
+     draft-ietf-intarea-reordering-latest
 
      This template includes examples of most of the features of RFCXML with comments explaining
      how to customise them, and examples of how to achieve specific formatting.
@@ -23,7 +23,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-white-intarea-reordering-latest"
+  docName="draft-ietf-intarea-reordering-latest"
   ipr="trust200902"
   obsoletes=""
   updates="3819"
@@ -42,7 +42,7 @@
     <title abbrev="Packet Reordering">Proposal for Updates to Guidance on Packet Reordering</title> <!-- https://authors.ietf.org/en/rfcxml-vocabulary#title-4 -->
     <!--  The abbreviated title is required if the full title is longer than 39 characters -->
 
-    <seriesInfo name="Internet-Draft" value="draft-white-intarea-reordering-latest"/> <!-- https://authors.ietf.org/en/rfcxml-vocabulary#seriesinfo -->
+    <seriesInfo name="Internet-Draft" value="draft-ietf-intarea-reordering-latest"/> <!-- https://authors.ietf.org/en/rfcxml-vocabulary#seriesinfo -->
     <!-- Set value to the name of the draft  -->
 
     <author fullname="Greg White" initials="G." surname="White">
@@ -211,7 +211,7 @@
 
         <t>The IEEE 802.11 specification (Wi-Fi) currently supports only in-order delivery.  The 802.11 protocols inherit traffic delivery requirements from the 802.1Q specification (see section 6.5.3 in 802.1Q), which only permits only in-order delivery.</t>
 
-        <t>To utilize the medium efficiently, the 802.11 MAC aggregates data frames of a given traffic identifier (TID) and transmits them as a block. However, due to link errors, not all frames in the block may be received. In fact, it is observed that as many as 10% of frames may be corrupted, depending on link conditions and Modulation and Coding Scheme (MCS) selection.  A resequencing buffer at the receiver holds up delivery of data frames if a frame ahead of them are missing. A separate resequencing buffer is maintained for each of the 8 TIDs (user-priorities). A later retransmission may deliver the missing frame at which point the missing frame and subsequent frames are delivered. The overall delay experienced by a given data frame is then the sum of the channel access delay of the block containing it, the stack delay and the channel access delay of the block containing the missing frame ahead of it. In scenarios where the network is even moderately congested, this can significantly impact the tail latency.  For example, in a network with 7 other stations actively contending for channel access, the additional latency caused by the resequencing function can be more than 75ms at P90, and over 400 ms at P99.</t>
+        <t>To utilize the medium efficiently, the 802.11 MAC aggregates data frames of a given traffic identifier (TID) and transmits them as a block. However, due to link errors, not all frames in the block may be received. In fact, it is observed that as many as 10% of frames may be corrupted, depending on link conditions and Modulation and Coding Scheme (MCS) selection.  A resequencing buffer at the receiver holds up delivery of data frames if a frame ahead of them are missing. A separate resequencing buffer is maintained for each of the 8 TIDs (user-priorities). A later retransmission may deliver the missing frame at which point the missing frame and subsequent frames are delivered. The overall delay experienced by a given data frame is then the sum of the channel access delay of the block containing it, the stack delay and the channel access delay of the block containing the missing frame ahead of it. In scenarios where the network is even moderately congested, this can significantly impact the tail latency.  For example, in a network with 7 other stations actively contending for channel access, the additional latency caused by the resequencing function is more than 75ms at P90, and over 400 ms at P99.</t>
 
         <t>The process of in-order delivery is also taken advantage of as part of the security protocol. Each data frame is sequentially numbered with a packet number. To mitigate against a replay attack, the receiving MAC simply checks if the packet number of a received  data frames is higher than the highest received one for that TID.</t>
 
