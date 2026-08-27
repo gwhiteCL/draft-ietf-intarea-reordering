@@ -2,7 +2,7 @@
 
 This is the working area for the INTAREA Working Group Internet-Draft, "draft-ietf-intarea-reordering".
 
-* [Editor's Copy](https://gwhiteCL.github.io/draft-ietf-intarea-reordering/#go.draft-ietf-intarea-reordering.html)
+* [Editor's Copy](https://gwhitecl.github.io/draft-ietf-intarea-reordering/draft-ietf-intarea-reordering.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-intarea-reordering)
 * [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-intarea-reordering)
 * [Compare Editor's Copy to Working Group Draft](https://gwhiteCL.github.io/draft-ietf-intarea-reordering/#go.draft-ietf-intarea-reordering.diff)
