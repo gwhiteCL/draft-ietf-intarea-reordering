@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     draft-white-intarea-reordering-latest
+     draft-ietf-intarea-reordering-latest
 
      This template includes examples of most of the features of RFCXML with comments explaining
      how to customise them, and examples of how to achieve specific formatting.
@@ -23,7 +23,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="info"
-  docName="draft-white-intarea-reordering-latest"
+  docName="draft-ietf-intarea-reordering-latest"
   ipr="trust200902"
   obsoletes=""
   updates="3819"
@@ -42,7 +42,7 @@
     <title abbrev="Packet Reordering">Proposal for Updates to Guidance on Packet Reordering</title> <!-- https://authors.ietf.org/en/rfcxml-vocabulary#title-4 -->
     <!--  The abbreviated title is required if the full title is longer than 39 characters -->
 
-    <seriesInfo name="Internet-Draft" value="draft-white-intarea-reordering-latest"/> <!-- https://authors.ietf.org/en/rfcxml-vocabulary#seriesinfo -->
+    <seriesInfo name="Internet-Draft" value="draft-ietf-intarea-reordering-latest"/> <!-- https://authors.ietf.org/en/rfcxml-vocabulary#seriesinfo -->
     <!-- Set value to the name of the draft  -->
 
     <author fullname="Greg White" initials="G." surname="White">
