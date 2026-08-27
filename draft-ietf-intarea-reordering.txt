@@ -300,8 +300,8 @@ Table of Contents
    network is even moderately congested, this can significantly impact
    the tail latency.  For example, in a network with 7 other stations
    actively contending for channel access, the additional latency caused
-   by the resequencing function is more than 75ms at P90, and over 400
-   ms at P99.
+   by the resequencing function can be more than 75ms at P90, and over
+   400 ms at P99.
 
    The process of in-order delivery is also taken advantage of as part
    of the security protocol.  Each data frame is sequentially numbered
