@@ -39,7 +39,7 @@
 -->
 
   <front>
-    <title abbrev="Packet Reordering">Proposal for Updates to Guidance on Packet Reordering</title> <!-- https://authors.ietf.org/en/rfcxml-vocabulary#title-4 -->
+    <title abbrev="Packet Reordering">Updates to Guidance on Packet Reordering</title> <!-- https://authors.ietf.org/en/rfcxml-vocabulary#title-4 -->
     <!--  The abbreviated title is required if the full title is longer than 39 characters -->
 
     <seriesInfo name="Internet-Draft" value="draft-ietf-intarea-reordering-latest"/> <!-- https://authors.ietf.org/en/rfcxml-vocabulary#seriesinfo -->
@@ -106,7 +106,7 @@
       To meet this requirement they implement a "resequencing" operation to restore the original packet order.
       This can introduce delays that result in net degradation of performance.
       Modern TCP and QUIC implementations support features that significantly improve their tolerance to out-of-order delivery.
-      This draft is intended to provide new information for layer 2 technology standards regarding the need to assure in-order delivery to support IETF protocols.</t>
+      This document provides updated guidance for layer 2 technology standards regarding the need to assure in-order delivery to support IETF protocols.</t>
     </abstract>
 
   </front>
@@ -271,8 +271,8 @@
     </section>
 
     <section>
-      <name>Proposed Updates to RFC3819 Guidance on Packet Reordering</name>
-      <t>This draft proposes to replace the contents of <xref target="RFC3819" section="15"/> with the following text.</t>
+      <name>Updates to RFC3819 Guidance on Packet Reordering</name>
+      <t>This document replaces the contents of <xref target="RFC3819" section="15"/> with the following text.</t>
 
       <t>The Internet architecture does not guarantee that packets will arrive
       in the same order in which they were originally transmitted.
