@@ -128,6 +128,7 @@
       The advice seems reasonable: "try to avoid packet reordering whenever possible, but not if doing so compromises efficiency, impairs reliability, or increases average packet delay."
       However, along with this guidance come a couple of warnings that appear to have driven subnetwork designers towards assuring in-order delivery even if efficiency is impaired or average packet delay is increased.
       These warnings relate to the potential performance cost for TCP (as it was then defined) that arises due to out-of-order arrivals, and to the fact that out-of-order delivery would cause problems for "every header compression scheme currently standardized for the Internet." </t>
+      
       <t>The text of <xref target="RFC3819"/> does mention that research on improving TCP behavior in the face of packet reordering was underway.
       In the intervening 20+ years, that research has resulted in the definition of <xref target="RFC8985">RACK</xref> which significantly reduces TCP's sensitivity to out-of-order arrivals.
       In addition, <xref target="RFC9002" section="6.1"/> discusses the usefulness of implementing similar mechanisms in QUIC, and provides the protocol tools to do so.
@@ -145,7 +146,10 @@
       Subsequent to the publication of <xref target="RFC3819"/> the issue of reordering intolerance by ROHC was addressed by the development of ROHCv2 <xref target="RFC5225"/>, which lists tolerance to reordering as one of its significant improvements over ROHC.</t>
 
       <t>There may be other protocols or protocol implementations that are sensitive to reordering to some degree.
-      For instance, <xref target="RFC2983" section="4.1"/> discusses <xref target="RFC2401">IPSec</xref> and <xref target="RFC2661">L2TP</xref> as being sensitive to packet reordering. Additionally, some have expressed a concern that IP translators (like CG-NAT) might be sensitive to packet reordering, however <xref target="RFC6888"/> and <xref target="RFC4787"/> do not appear to introduce any packet ordering sensitivity, and in fact mandate that implementations support out-of-order arrivals in the context of IPv4 fragmentation.  Futhermore, some have expressed concern that IPv4 fragmentation reassembly implementations more broadly may not support out-of-order arrivals.  This is echoed by a statement in the Security Considerations section of <xref target="RFC4787"/> that claims that many systems simply discard out-of-order fragments.</t>
+      For instance, <xref target="RFC2983" section="4.1"/> discusses <xref target="RFC2401">IPSec</xref> and <xref target="RFC2661">L2TP</xref> as being sensitive to packet reordering.
+      Additionally, some have expressed a concern that IP translators (like CG-NAT) might be sensitive to packet reordering, however <xref target="RFC6888"/> and <xref target="RFC4787"/> do not appear to introduce any packet ordering sensitivity, and in fact mandate that implementations support out-of-order arrivals in the context of IPv4 fragmentation.
+      Futhermore, some have expressed concern that IPv4 fragmentation reassembly implementations more broadly may not support out-of-order arrivals.
+      This is echoed by a statement in the Security Considerations section of <xref target="RFC4787"/> that claims that many systems simply discard out-of-order fragments.</t>
 
       <t><xref target="RFC4303"/> (and the obsoleted <xref target="RFC2406"/>) specifies out of order handling for IPsec encryption (ESP).
       A sliding window scheme is used with a minimum size of 32 and a default of 64 packets.
@@ -182,7 +186,8 @@
       <section>
         <name>Layer 2 Retransmissions</name>
         <t>Some link technologies (particularly wireless), are subject to noise and interference that would result in an unacceptably high frame error rate if it were not corrected.
-        These links commonly implement a method of acknowledgement and retransmission of lost frames, referred to as Automatic Repeat Request (ARQ).  When a frame loss affects one or more frames within a transmission, and the frame(s) at the end are unaffected, the retransmitted frames will arrive out of sequence from the original ordering.</t>
+        These links commonly implement a method of acknowledgement and retransmission of lost frames, referred to as Automatic Repeat Request (ARQ).
+        When a frame loss affects one or more frames within a transmission, and the frame(s) at the end are unaffected, the retransmitted frames will arrive out of sequence from the original ordering.</t>
       </section>
     </section>
 
@@ -194,32 +199,54 @@
 
       <section>
         <name>LTE/5G</name>
-        <t>The layers involved in data transmission, from top to bottom, are PDCP, RLC, MAC and PHY. Packet reordering can occur on both the MAC and the RLC layer in LTE and 5G systems. Packet resequencing occurs on the PDCP layer.</t>
+        <t>The layers involved in data transmission, from top to bottom, are PDCP, RLC, MAC and PHY.
+        Packet reordering can occur on both the MAC and the RLC layer in LTE and 5G systems.
+        Packet resequencing occurs on the PDCP layer.</t>
 
-        <t>On the MAC layer: An RLC packet data unit (RLC-PDU) is transmitted in one of up to 16 Hybrid ARQ processes on the MAC layer. This avoids the stop and wait for one transmission to succed before a new transmission can begin. Transmission on the MAC layer can however have a high block error rate (BLER), 10% or more is common especially when the traffic pattern and radio channel varies. Each retransmission adds a few milliseconds extra delay.</t>
+        <t>On the MAC layer: An RLC packet data unit (RLC-PDU) is transmitted in one of up to 16 Hybrid ARQ processes on the MAC layer.
+        This avoids the stop and wait for one transmission to succed before a new transmission can begin.
+        Transmission on the MAC layer can however have a high block error rate (BLER), 10% or more is common especially when the traffic pattern and radio channel varies.
+        Each retransmission adds a few milliseconds extra delay.</t>
+
         <t>This results in packets delivered out of order to the RLC layer on the receiver side because some transmissions on the MAC layer succeed in one attempt while others may need several attempts, up to a configured limit.</t>
+
         <t>HARQ failure is triggered when the max number of retransmissions is reached.</t>
 
         <t>On the RLC Layer: The RLC layer is configured in two typical ways.</t>
-
-        <ul><li>RLC Unacknowledged mode (RLC-UM): Is typically used for voice services a.k.a VoLTE (Voice over LTE) or VoNR (Voice over NR). Data blocks are not retransmitted in this mode.</li>
-        <li>RLC Acknowledged mode (RLC-AM): Is typically used for normal internet traffic, a.k.a Mobile Broadband (MBB). Retransmissions on this layer are less common than retransmissions on the MAC layer and they occur when HARQ failure is triggered on the MAC layer, or in the case that the MAC layer erroneously decodes a NACK as an ACK. Retransmission on the RLC layer causes 10s of milliseconds on extra delay, depending on how timers are configured.</li></ul>
+        <ul><li>RLC Unacknowledged mode (RLC-UM): Is typically used for voice services a.k.a VoLTE (Voice over LTE) or VoNR (Voice over NR).
+        Data blocks are not retransmitted in this mode.</li>
+        <li>RLC Acknowledged mode (RLC-AM): Is typically used for normal internet traffic, a.k.a Mobile Broadband (MBB).
+        Retransmissions on this layer are less common than retransmissions on the MAC layer and they occur when HARQ failure is triggered on the MAC layer, or in the case that the MAC layer erroneously decodes a NACK as an ACK.
+        Retransmission on the RLC layer causes 10s of milliseconds on extra delay, depending on how timers are configured.</li></ul>
 
         <t>Besides the causes for packet reordering listed above, packet reordering can occur with Dual Connectivity where 2 or more radio frequency bands are combined on the RLC layer, this because there can be a time skew of a few milliseconds over transport links between the  PDCP layer and the RLC layer(s).</t>
 
-        <t>The RLC layer does resequencing on the RLC layer in LTE systems. On 5G systems however, resequencing is left to the PDCP layer. Resequencing on the PDCP layer is however optional according to the 5G standard but is mostly enabled out of concern for sensitivity to packet reordering on the transport and application layer. In addition radio bearers with robust header compression (RoHC) should enable resequencing.</t>
+        <t>The RLC layer does resequencing on the RLC layer in LTE systems. On 5G systems however, resequencing is left to the PDCP layer.
+        Resequencing on the PDCP layer is however optional according to the 5G standard but is mostly enabled out of concern for sensitivity to packet reordering on the transport and application layer.
+        In addition radio bearers with robust header compression (RoHC) should enable resequencing.</t>
       </section>
 
       <section>
         <name>Wi-Fi</name>
 
-        <t>The IEEE 802.11 specification (Wi-Fi) currently supports only in-order delivery.  The 802.11 protocols inherit traffic delivery requirements from the 802.1Q specification (see section 6.5.3 in 802.1Q), which only permits only in-order delivery.</t>
+        <t>The IEEE 802.11 specification (Wi-Fi) currently supports only in-order delivery.
+        The 802.11 protocols inherit traffic delivery requirements from the 802.1Q specification (see section 6.5.3 in 802.1Q), which only permits only in-order delivery.</t>
 
-        <t>To utilize the medium efficiently, the 802.11 MAC aggregates data frames of a given traffic identifier (TID) and transmits them as a block. However, due to link errors, not all frames in the block may be received. In fact, it is observed that as many as 10% of frames may be corrupted, depending on link conditions and Modulation and Coding Scheme (MCS) selection.  A resequencing buffer at the receiver holds up delivery of data frames if a frame ahead of them are missing. A separate resequencing buffer is maintained for each of the 8 TIDs (user-priorities). A later retransmission may deliver the missing frame at which point the missing frame and subsequent frames are delivered. The overall delay experienced by a given data frame is then the sum of the channel access delay of the block containing it, the stack delay and the channel access delay of the block containing the missing frame ahead of it. In scenarios where the network is even moderately congested, this can significantly impact the tail latency.  For example, in a network with 7 other stations actively contending for channel access, the additional latency caused by the resequencing function can be more than 75ms at P90, and over 400 ms at P99.</t>
+        <t>To utilize the medium efficiently, the 802.11 MAC aggregates data frames of a given traffic identifier (TID) and transmits them as a block.
+        However, due to link errors, not all frames in the block may be received.
+        In fact, it is observed that as many as 10% of frames may be corrupted, depending on link conditions and Modulation and Coding Scheme (MCS) selection.
+        A resequencing buffer at the receiver holds up delivery of data frames if a frame ahead of them are missing. A separate resequencing buffer is maintained for each of the 8 TIDs (user-priorities).
+        A later retransmission may deliver the missing frame at which point the missing frame and subsequent frames are delivered.
+        The overall delay experienced by a given data frame is then the sum of the channel access delay of the block containing it, the stack delay and the channel access delay of the block containing the missing frame ahead of it.
+        In scenarios where the network is even moderately congested, this can significantly impact the tail latency.
+        For example, in a network with 7 other stations actively contending for channel access, the additional latency caused by the resequencing function can be more than 75ms at P90, and over 400 ms at P99.</t>
 
-        <t>The process of in-order delivery is also taken advantage of as part of the security protocol. Each data frame is sequentially numbered with a packet number. To mitigate against a replay attack, the receiving MAC simply checks if the packet number of a received  data frames is higher than the highest received one for that TID.</t>
+        <t>The process of in-order delivery is also taken advantage of as part of the security protocol.
+        Each data frame is sequentially numbered with a packet number.
+        To mitigate against a replay attack, the receiving MAC simply checks if the packet number of a received data frames is higher than the highest received one for that TID.</t>
 
-        <t>Allowing out-of-order delivery within the 802.11 specification for a given TID would require some adjustments to the 802.11 protocol. Some of the adjustments include the following:</t>
+        <t>Allowing out-of-order delivery within the 802.11 specification for a given TID would require some adjustments to the 802.11 protocol.
+        Some of the adjustments include the following:</t>
           <ul><li>The reorder buffer would need to release packets without waiting for older packets to be received.</li>
           <li>The replay detection mechanism would need to be updated to not drop an older missing frame when it is successfully retransmitted.</li></ul>
 
@@ -227,11 +254,19 @@
 
       <section>
         <name>DOCSIS</name>
-        <t>The Data-Over-Cable Service Interface Specifications provide broadband access over hybrid fiber-coaxial networks. The DOCSIS protocol does not support layer 2 retransmissions, but since the introduction of "channel bonding" functionality (a form of multi-link aggregation) in DOCSIS 3.0 in 2006, reordering can occur due to differences in capacity or latency between the bonded channels.  All equipment built to that and later versions of DOCSIS (including DOCSIS 3.1 and DOCSIS 4.0) is required to support specific resequencing features to guarantee in-order delivery.</t>
+        <t>The Data-Over-Cable Service Interface Specifications provide broadband access over hybrid fiber-coaxial networks.
+        The DOCSIS protocol does not support layer 2 retransmissions, but since the introduction of "channel bonding" functionality (a form of multi-link aggregation) in DOCSIS 3.0 in 2006, reordering can occur due to differences in capacity or latency between the bonded channels.
+        All equipment built to that and later versions of DOCSIS (including DOCSIS 3.1 and DOCSIS 4.0) is required to support specific resequencing features to guarantee in-order delivery.</t>
 
-        <t>In the downstream direction (i.e. from the network to end-user) individual IP packets are encapsulated in layer 2 frames that generally include a 20-bit Downstream Service ID (DSID), a 1-bit Sequence Change Count, and a 16-bit Packet Sequence Number. The specifications include detailed, mandatory, requirements on the handling of these fields, including a requirement that cable modems support at least 16 simultaneous resequencing contexts, each of which having sufficient memory to hold packets for up to 13 ms (18 ms in older equipment) at the maximum forwarding rate of the device, mechanisms for rapid loss detection, and significant management and configuration mechanisms to support the feature.</t>
+        <t>In the downstream direction (i.e. from the network to end-user) individual IP packets are encapsulated in layer 2 frames that generally include a 20-bit Downstream Service ID (DSID), a 1-bit Sequence Change Count, and a 16-bit Packet Sequence Number.
+        The specifications include detailed, mandatory, requirements on the handling of these fields, including a requirement that cable modems support at least 16 simultaneous resequencing contexts,
+        each of which having sufficient memory to hold packets for up to 13 ms (18 ms in older equipment) at the maximum forwarding rate of the device, mechanisms for rapid loss detection, and significant management and configuration mechanisms to support the feature.</t>
 
-        <t>In the upstream direction (i.e. from the end-user to the network) individual IP packets are encapsulated in layer 2 frames, then concatenated together and fragmented into "segments" for transmission. The segment boundaries are determined by the size of the transmission opportunities (grants) and generally do not relate to the internal frame or packet boundaries. So, in general a segment could begin with the tail of one L2 frame, then have zero or more full L2 frames, then the head of a final frame. Each segment has a segment header which contains a 13-bit sequence number. The CMTS is required to reassemble the concatenated frame sequence, and forward the individual frames in order.</t>
+        <t>In the upstream direction (i.e. from the end-user to the network) individual IP packets are encapsulated in layer 2 frames, then concatenated together and fragmented into "segments" for transmission.
+        The segment boundaries are determined by the size of the transmission opportunities (grants) and generally do not relate to the internal frame or packet boundaries.
+        So, in general a segment could begin with the tail of one L2 frame, then have zero or more full L2 frames, then the head of a final frame.
+        Each segment has a segment header which contains a 13-bit sequence number.
+        The CMTS is required to reassemble the concatenated frame sequence, and forward the individual frames in order.</t>
       </section>
     </section>
 
@@ -254,11 +289,15 @@
       In addition, <xref target="RFC9002" section="6.1"/> discusses the usefulness of implementing similar mechanisms in QUIC, and provides the protocol tools to do so.
       Implementations of these time-based loss detection methods have now been widely deployed.</t>
 
-      <t>Subnetwork implementers SHOULD avoid introducing unnecessary packet reordering. However, where packet reordering is an unavoidable consequence of mechanisms that improve overall performance or reliability (for example, packet striping across multiple links or link-layer retransmissions), the resulting packet reordering SHOULD generally be exposed to the receiving endpoint rather than hidden by subnetwork resequencing.</t>
+      <t>Subnetwork implementers SHOULD avoid introducing unnecessary packet reordering.
+      However, where packet reordering is an unavoidable consequence of mechanisms that improve overall performance or reliability (for example, packet striping across multiple links or link-layer retransmissions), the resulting packet reordering SHOULD generally be exposed to the receiving endpoint rather than hidden by subnetwork resequencing.</t>
 
-      <t>Internet endpoints are ultimately responsible for interpreting packet ordering according to the semantics of the transport protocol or application. A subnetwork generally lacks sufficient knowledge to determine whether a particular degree of packet reordering would have adversely affected the receiving transport protocol or application, but it does know that resequencing necessarily delays packets that could otherwise have been forwarded immediately.</t>
+      <t>Internet endpoints are ultimately responsible for interpreting packet ordering according to the semantics of the transport protocol or application.
+      A subnetwork generally lacks sufficient knowledge to determine whether a particular degree of packet reordering would have adversely affected the receiving transport protocol or application, but it does know that resequencing necessarily delays packets that could otherwise have been forwarded immediately.</t>
 
-      <t>Modern transport protocols and many applications already incorporate mechanisms to tolerate bounded levels of packet reordering. Performing resequencing within the subnetwork duplicates functionality that already exists at the endpoint, while introducing head-of-line blocking that increases latency and delay variation for packets that were not themselves reordered. Subnetwork resequencing SHOULD therefore only be employed where there is clear evidence that its benefits outweigh the additional latency and jitter that it introduces.</t>
+      <t>Modern transport protocols and many applications already incorporate mechanisms to tolerate bounded levels of packet reordering.
+      Performing resequencing within the subnetwork duplicates functionality that already exists at the endpoint, while introducing head-of-line blocking that increases latency and delay variation for packets that were not themselves reordered.
+      Subnetwork resequencing SHOULD therefore only be employed where there is clear evidence that its benefits outweigh the additional latency and jitter that it introduces.</t>
     </section>
 
 
