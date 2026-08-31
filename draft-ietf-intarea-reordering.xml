@@ -124,7 +124,7 @@
       The advice seems reasonable: "try to avoid packet reordering whenever possible, but not if doing so compromises efficiency, impairs reliability, or increases average packet delay."
       However, along with this guidance come a couple of warnings that appear to have driven subnetwork designers towards assuring in-order delivery even if efficiency is impaired or average packet delay is increased.
       These warnings relate to the potential performance cost for TCP (as it was then defined) that arises due to out-of-order arrivals, and to the fact that out-of-order delivery would cause problems for "every header compression scheme currently standardized for the Internet." </t>
-      
+
       <t>The text of <xref target="RFC3819"/> does mention that research on improving TCP behavior in the face of packet reordering was underway.
       In the intervening 20+ years, that research has resulted in the definition of <xref target="RFC8985">RACK</xref> which significantly reduces TCP's sensitivity to out-of-order arrivals.
       In addition, <xref target="RFC9002" section="6.1"/> discusses the usefulness of implementing similar mechanisms in QUIC, and provides the protocol tools to do so.
