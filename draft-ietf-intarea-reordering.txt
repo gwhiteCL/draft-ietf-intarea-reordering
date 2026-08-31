@@ -13,7 +13,7 @@ Expires: 4 March 2027                                             D. Das
                                                           31 August 2026
 
 
-         Proposal for Updates to Guidance on Packet Reordering
+                Updates to Guidance on Packet Reordering
                   draft-ietf-intarea-reordering-latest
 
 Abstract
@@ -25,9 +25,9 @@ Abstract
    packet order.  This can introduce delays that result in net
    degradation of performance.  Modern TCP and QUIC implementations
    support features that significantly improve their tolerance to out-
-   of-order delivery.  This draft is intended to provide new information
-   for layer 2 technology standards regarding the need to assure in-
-   order delivery to support IETF protocols.
+   of-order delivery.  This document provides updated guidance for layer
+   2 technology standards regarding the need to assure in-order delivery
+   to support IETF protocols.
 
 Status of This Memo
 
@@ -71,7 +71,7 @@ Table of Contents
      4.1.  LTE/5G
      4.2.  Wi-Fi
      4.3.  DOCSIS
-   5.  Proposed Updates to RFC3819 Guidance on Packet Reordering
+   5.  Updates to RFC3819 Guidance on Packet Reordering
    6.  IANA Considerations
    7.  Security Considerations
    8.  References
@@ -355,10 +355,10 @@ Table of Contents
    required to reassemble the concatenated frame sequence, and forward
    the individual frames in order.
 
-5.  Proposed Updates to RFC3819 Guidance on Packet Reordering
+5.  Updates to RFC3819 Guidance on Packet Reordering
 
-   This draft proposes to replace the contents of Section 15 of
-   [RFC3819] with the following text.
+   This document replaces the contents of Section 15 of [RFC3819] with
+   the following text.
 
    The Internet architecture does not guarantee that packets will arrive
    in the same order in which they were originally transmitted.
