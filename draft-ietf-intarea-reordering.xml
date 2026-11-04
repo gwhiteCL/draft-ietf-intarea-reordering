@@ -118,7 +118,8 @@
       <name>Introduction</name>
 
       <t>Several link technology standards mandate that equipment guarantee in-order delivery of layer 2 frames, apparently due to a belief that this is required by higher layer protocols.
-      In addition, certain link types can introduce out-of-order arrivals at the end of the layer 2 link, which the receiving equipment is required to rectify by delaying higher sequenced frames until all lower sequenced frames can be delivered or are deemed lost.
+      Yet some of these link technologies use forwarding mechanisms that can produce out-of-order arrivals at the receiving link equipment.
+      To satisfy the in-order delivery requirement, the receiving link equipment must resequence the frames, delaying higher-sequenced frames until all lower-sequenced frames have been delivered or deemed lost.
       The delaying of higher sequenced frames is generally done without any knowledge of the higher layer protocols in use, let alone any knowledge of higher layer protocol contexts (e.g. TCP connections) in the case that the layer 2 link is carrying a multiplex of such contexts.
       It could, for example, be the case that all of the higher sequenced frames being delayed are carrying packets for different layer 4 contexts than a single lower-sequenced frame that triggered the delay.
       The result is that this "resequencing" operation can introduce delays that result in degradation of performance rather than improving it.
@@ -132,12 +133,13 @@
       <t>The text of <xref target="RFC3819"/> does mention that research on improving TCP behavior in the face of packet reordering was underway.
       In the intervening 20+ years, that research has resulted in the definition of <xref target="RFC8985">RACK</xref> which significantly reduces TCP's sensitivity to out-of-order arrivals.
       In addition, <xref target="RFC9002" section="6.1"/> discusses the usefulness of implementing similar mechanisms in QUIC, and provides the protocol tools to do so.
-      The result is that having the link-layer delay packets to provide them in-order to the transport layer was helpful multiple decades ago when TCP implementations had more naive algorithms and were very resource-constrained.
+      A similar expectation appears in the Prague requirements in <xref target="RFC9331"/>, which recommend that L4S implementations be resilient to packet reordering.
+      The result is that having the link-layer delay packets to provide them in-order to the transport layer was helpful multiple decades ago when TCP implementations had more naïve algorithms and were very resource-constrained.
       Given how modern implementations work, this "resequencing" at the link-layer is almost always harmful.
       Modern TCP and QUIC stacks can handle reordering well, thanks to both protocol features and implementations having more memory to work with.
       For these implementations, the delay induced by L2 resequencing will generally cause more harm than good.
       Furthermore, one of the biggest motivators for QUIC was to break head-of-line blocking and allow out-of-order delivery to the application layer.
-      At this point we have large bodies of data showing that this improves real-world performance.
+      Breaking head-of-line blocking demonstrably improves real-world performance, but link-layer resequencing can undermine this benefit.
       Moreover, older implementations of TCP that don't implement RACK don't fail in the presence of some out-of-order packets.
       They may see reduced performance, but they do have the ability to correctly handle the receipt of packets out of order.</t>
 
@@ -341,6 +343,7 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6675.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6888.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4787.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9331.xml"/>
 <!--
         <reference anchor="BPS99" target="https://doi.org/10.1109/90.811445">
           <front>
